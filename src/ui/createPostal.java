@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import     conexion.ConexionC;
+import repository.PostalsMethods;
 
 /**
  *
@@ -28,6 +29,8 @@ public class createPostal extends javax.swing.JFrame {
      File archivo;
      
      String pathImage = "";
+     
+     PostalsMethods pm = PostalsMethods.getInstance();
     public createPostal() {
         initComponents();
         
@@ -99,7 +102,7 @@ public class createPostal extends javax.swing.JFrame {
             }
         });
 
-        cbSize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pequeña", "mediana", "grande" }));
+        cbSize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pequena", "mediana", "grande" }));
 
         cbFont.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alice in Wonderland", "Allstar4", "Black Bones", "The Loccosta FREE", "arial" }));
 
@@ -229,13 +232,15 @@ public class createPostal extends javax.swing.JFrame {
         String font = cbFont.getSelectedItem().toString();
         String size = cbSize.getSelectedItem().toString();
 
-
-        if (newName.isEmpty() && textBellow.isEmpty() && textTop.isEmpty() && pathImage.isEmpty()) {
+        if (newName.isEmpty() && pathImage.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Faltan datos por introducir", "alerta", JOptionPane.ERROR_MESSAGE);
         } else {
             pathImage = pathImage.replace("\\", "\\\\");
-            ConexionC connect = new ConexionC();
-            connect.connect(pathImage, textTop, textBellow, newName, size, font);
+            if (newName.contains("jpg") || newName.contains("png") || newName.contains("bmp")) {
+                pm.insertPostal(pathImage, textTop, textBellow, newName, size, font);
+            } else {
+                JOptionPane.showMessageDialog(null, "Al nombre de la postal le hace falta una extensión o la extensión no es correcta, solo es permitido jpg,png,bmp", "alerta", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
     }//GEN-LAST:event_btnCreateActionPerformed
