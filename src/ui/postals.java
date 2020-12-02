@@ -7,13 +7,18 @@
 package ui;
 
 
+import com.sun.scenario.effect.impl.prism.PrImage;
 import controler.PostalsControler;
 import java.awt.Image;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import models.Postals;
+import models.Project;
 
 
 /**
@@ -162,10 +167,14 @@ public class postals extends javax.swing.JFrame{
     }//GEN-LAST:event_btnMenuActionPerformed
 
     private void btnPropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPropertiesActionPerformed
-        propiedades frame = new propiedades();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        dispose();
+        try {
+            Propiedades frame = new Propiedades();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(postals.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnPropertiesActionPerformed
 
     /**
@@ -226,12 +235,12 @@ public class postals extends javax.swing.JFrame{
         DefaultListModel<String> listModel = pp.showPostals();
         listPostals.setModel(listModel);
         listPostals.getSelectionModel().addListSelectionListener(e -> {
-        Postals postal = pp.searchPostals(listPostals.getSelectedValue());
-            if (postal != null) {
-                ImageIcon origin = new ImageIcon(postal.pathOrigin);
-                ImageIcon newP = new ImageIcon(postal.pathPostal);
-                ImageIcon iconOri = new ImageIcon(origin.getImage().getScaledInstance(lbImage1.getWidth(), lbImage1.getHeight(), Image.SCALE_DEFAULT));
-            
+        Project project = pp.searchProject(listPostals.getSelectedValue());
+        pp.setLastPostalSee(project);
+            if (project != null) {
+                ImageIcon origin = new ImageIcon(project.getOriginal().getPath());
+                ImageIcon newP = new ImageIcon(project.getPostal().getPath());
+                ImageIcon iconOri = new ImageIcon(origin.getImage().getScaledInstance(lbImage1.getWidth(), lbImage1.getHeight(), Image.SCALE_DEFAULT));   
                 ImageIcon iconPostal = new ImageIcon(newP.getImage().getScaledInstance(lbImage2.getWidth(), lbImage2.getHeight(), Image.SCALE_DEFAULT));
                 lbImage1.setIcon(iconOri);
                 lbImage2.setIcon(iconPostal);

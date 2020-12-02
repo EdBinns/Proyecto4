@@ -15,7 +15,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import     conexion.ConexionC;
 import controler.PostalsControler;
-import repository.PostalsMethods;
+import repository.ProjectsMethods;
 
 /**
  *

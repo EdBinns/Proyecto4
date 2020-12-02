@@ -9,21 +9,21 @@ package models;
  *
  * @author edubi
  */
-public class Postals {
+public class Postals extends Images{
    
-   public String pathOrigin;
-   public String pathPostal;
-   public String namePostal;
-   public String namePostalExtension;
+    private String nameWithExtension;
 
-   public Postals sig;
-
-    public Postals(String pathOrigin, String pathPostal , String namePostal, String namePostalExtension){
-        this.pathOrigin = pathOrigin;
-        this.pathPostal = pathPostal;
-        this.namePostal = namePostal;
-        this.namePostalExtension = namePostalExtension;
+    public Postals(String path, String name, String dateOfCreated, String dimens, String bytes, String typeOfFile, String nameWithExtension) {
+        super(path, name, dateOfCreated, dimens, bytes, typeOfFile);
+        this.nameWithExtension = nameWithExtension;
     }
- 
+
+    public String getNameWithExtension() {
+        return nameWithExtension;
+    }
+
+    public void setNameWithExtension(String nameWithExtension) {
+        this.nameWithExtension = nameWithExtension;
+    }
+
 }
- 
