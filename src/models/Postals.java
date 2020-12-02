@@ -14,13 +14,16 @@ public class Postals {
    public String pathOrigin;
    public String pathPostal;
    public String namePostal;
+   public String namePostalExtension;
 
    public Postals sig;
 
-    public Postals(String pathOrigin, String pathPostal , String namePostal){
+    public Postals(String pathOrigin, String pathPostal , String namePostal, String namePostalExtension){
         this.pathOrigin = pathOrigin;
         this.pathPostal = pathPostal;
         this.namePostal = namePostal;
+        this.namePostalExtension = namePostalExtension;
     }
  
 }
+ 

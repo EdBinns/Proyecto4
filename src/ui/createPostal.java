@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import     conexion.ConexionC;
+import controler.PostalsControler;
 import repository.PostalsMethods;
 
 /**
@@ -25,15 +26,17 @@ public class createPostal extends javax.swing.JFrame {
     /**
      * Creates new form createPostal
      */
-    
-     File archivo;
-     
-     String pathImage = "";
-     
-     PostalsMethods pm = PostalsMethods.getInstance();
+    File archivo;
+
+    String pathImage = "";
+
+  
+
+    PostalsControler pp = new PostalsControler();
+
     public createPostal() {
         initComponents();
-        
+
         this.setLocationRelativeTo(this);
     }
 
@@ -64,17 +67,23 @@ public class createPostal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Texto abajo");
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("Texto abajo:");
 
-        jLabel2.setText("Nombre nueva postal");
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setText("Nombre nueva postal:");
 
-        jLabel3.setText("Imagen");
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setText("Imagen:");
 
-        jLabel4.setText("Tamaño letra");
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel4.setText("Tamaño letra:");
 
-        jLabel5.setText("Tipo fuente");
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel5.setText("Tipo fuente:");
 
-        jLabel6.setText("Texto arriba");
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel6.setText("Texto arriba:");
 
         btnCreate.setText("Crear imagen");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -135,15 +144,11 @@ public class createPostal extends javax.swing.JFrame {
                     .addComponent(cbFont, 0, 144, Short.MAX_VALUE)
                     .addComponent(txtTextBellow)
                     .addComponent(txtTextTop))
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(btnCargar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                        .addComponent(btnComeBack, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                    .addComponent(btnCargar)
+                    .addComponent(btnComeBack, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,7 +163,7 @@ public class createPostal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCargar))
+                            .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,7 +179,7 @@ public class createPostal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTextBellow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnComeBack, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -194,27 +199,9 @@ public class createPostal extends javax.swing.JFrame {
 
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
-       
-      int resultado;
-      
-      fileChooser fc = new fileChooser();
-      
-        FileNameExtensionFilter format = new FileNameExtensionFilter("JPG, PNG, BMP", "jpg", "png", "bmp");
-      
-      fc.jFileChooser1.setFileFilter(format);
-   
+ 
+       getPostalPath();
 
-        fc.jFileChooser1.setFileFilter(format);
-        resultado = fc.jFileChooser1.showOpenDialog(null);
-        
-        if (JFileChooser.APPROVE_OPTION == resultado) {
-            archivo = fc.jFileChooser1.getSelectedFile();
-            pathImage = archivo.getAbsolutePath();
-            txtImage.setText(pathImage);
-            
-            System.out.println(pathImage);
-        }
-        
     }//GEN-LAST:event_btnCargarActionPerformed
 
     private void btnComeBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComeBackActionPerformed
@@ -225,24 +212,7 @@ public class createPostal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComeBackActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-
-        String newName = txtNewName.getText();
-        String textTop = txtTextTop.getText();
-        String textBellow = txtTextBellow.getText();
-        String font = cbFont.getSelectedItem().toString();
-        String size = cbSize.getSelectedItem().toString();
-
-        if (newName.isEmpty() && pathImage.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Faltan datos por introducir", "alerta", JOptionPane.ERROR_MESSAGE);
-        } else {
-            pathImage = pathImage.replace("\\", "\\\\");
-            if (newName.contains("jpg") || newName.contains("png") || newName.contains("bmp")) {
-                pm.insertPostal(pathImage, textTop, textBellow, newName, size, font);
-            } else {
-                JOptionPane.showMessageDialog(null, "Al nombre de la postal le hace falta una extensión o la extensión no es correcta, solo es permitido jpg,png,bmp", "alerta", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
+         addPostal();
     }//GEN-LAST:event_btnCreateActionPerformed
 
     /**
@@ -297,4 +267,46 @@ public class createPostal extends javax.swing.JFrame {
     private javax.swing.JTextField txtTextBellow;
     private javax.swing.JTextField txtTextTop;
     // End of variables declaration//GEN-END:variables
+
+    public void addPostal() {
+        String newName = txtNewName.getText();
+        String textTop = txtTextTop.getText();
+        String textBellow = txtTextBellow.getText();
+        String font = cbFont.getSelectedItem().toString();
+        String size = cbSize.getSelectedItem().toString();
+
+        if (newName.isEmpty() && pathImage.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Faltan datos por introducir", "alerta", JOptionPane.ERROR_MESSAGE);
+        } else {
+            pathImage = pathImage.replace("\\", "\\\\");
+            if (newName.contains("jpg") || newName.contains("png") || newName.contains("bmp")) {
+                String result = pp.callPostalsService(pathImage, textTop, textBellow, newName, size, font);
+                JOptionPane.showMessageDialog(null, result, "información", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Al nombre de la postal le hace falta una extensión o la extensión no es correcta, solo es permitido jpg,png,bmp", "alerta", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+
+    public void getPostalPath() {
+       int resultado;
+
+        fileChooser fc = new fileChooser();
+
+        FileNameExtensionFilter format = new FileNameExtensionFilter("JPG, PNG, BMP", "jpg", "png", "bmp");
+
+        fc.jFileChooser1.setFileFilter(format);
+
+        fc.jFileChooser1.setFileFilter(format);
+        resultado = fc.jFileChooser1.showOpenDialog(null);
+
+        if (JFileChooser.APPROVE_OPTION == resultado) {
+            archivo = fc.jFileChooser1.getSelectedFile();
+            pathImage = archivo.getAbsolutePath();
+            txtImage.setText(pathImage);
+
+            System.out.println(pathImage);
+        }
+    }
 }

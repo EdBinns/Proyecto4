@@ -6,28 +6,34 @@
 
 package ui;
 
-import com.sun.javafx.sg.prism.NGCanvas;
+
+import controler.PostalsControler;
 import java.awt.Image;
-import java.awt.ImageCapabilities;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import models.Postals;
-import repository.PostalsMethods;
+
 
 /**
  *
  * @author edubi
  */
-public class postals extends javax.swing.JFrame {
+public class postals extends javax.swing.JFrame{
 
     /** Creates new form postals */
-    PostalsMethods pm = PostalsMethods.getInstance();
-    Postals postal = null;
+    PostalsControler pp = new PostalsControler();
+ 
+
     public postals() {
         initComponents();
-        
-        addPostalsList();
-    
+        Border border = LineBorder.createGrayLineBorder();
+
+        lbImage1.setBorder(border);
+        lbImage2.setBorder(border);
+        showPostals();
+
     }
 
     /** This method is called from within the constructor to
@@ -48,6 +54,8 @@ public class postals extends javax.swing.JFrame {
         lbImage1 = new javax.swing.JLabel();
         btnMenu = new javax.swing.JButton();
         btnProperties = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -73,6 +81,17 @@ public class postals extends javax.swing.JFrame {
         });
 
         btnProperties.setText("Propiedades");
+        btnProperties.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPropertiesActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("Original");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setText("Postal");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,10 +100,6 @@ public class postals extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
@@ -98,7 +113,15 @@ public class postals extends javax.swing.JFrame {
                                 .addComponent(lbImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(35, 35, 35)
                                 .addComponent(lbImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33))))))
+                                .addGap(33, 33, 33))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(230, 230, 230)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(136, 136, 136))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -108,7 +131,10 @@ public class postals extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(txtTitle)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTitle)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -134,6 +160,13 @@ public class postals extends javax.swing.JFrame {
         frame.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnMenuActionPerformed
+
+    private void btnPropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPropertiesActionPerformed
+        propiedades frame = new propiedades();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnPropertiesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,6 +213,8 @@ public class postals extends javax.swing.JFrame {
     private javax.swing.JButton btnPlugins;
     private javax.swing.JButton btnProperties;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbImage1;
     private javax.swing.JLabel lbImage2;
@@ -187,28 +222,20 @@ public class postals extends javax.swing.JFrame {
     private javax.swing.JLabel txtTitle;
     // End of variables declaration//GEN-END:variables
 
-    private void addPostalsList() {
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-
-        Postals aux = pm.inicio;
-        while (aux != null) {
-            listModel.addElement(aux.namePostal);
-            aux = aux.sig;
-        }
-
+    public void showPostals() {
+        DefaultListModel<String> listModel = pp.showPostals();
         listPostals.setModel(listModel);
         listPostals.getSelectionModel().addListSelectionListener(e -> {
-             postal = pm.search(listPostals.getSelectedValue());
+        Postals postal = pp.searchPostals(listPostals.getSelectedValue());
             if (postal != null) {
                 ImageIcon origin = new ImageIcon(postal.pathOrigin);
                 ImageIcon newP = new ImageIcon(postal.pathPostal);
-                ImageCapabilities xd = origin.getImage().getCapabilities(getGraphicsConfiguration());
-
                 ImageIcon iconOri = new ImageIcon(origin.getImage().getScaledInstance(lbImage1.getWidth(), lbImage1.getHeight(), Image.SCALE_DEFAULT));
+            
                 ImageIcon iconPostal = new ImageIcon(newP.getImage().getScaledInstance(lbImage2.getWidth(), lbImage2.getHeight(), Image.SCALE_DEFAULT));
                 lbImage1.setIcon(iconOri);
                 lbImage2.setIcon(iconPostal);
-        }
+            }
         });
     }
 }

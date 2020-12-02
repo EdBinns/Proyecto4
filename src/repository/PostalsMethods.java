@@ -31,7 +31,7 @@ public class PostalsMethods {
         return instance;
     }
 
-    public Postals inicio;
+    private Postals inicio;
 
     /**
      * .
@@ -52,15 +52,19 @@ public class PostalsMethods {
         String pathPostal = "C:\\Users\\edubi\\OneDrive\\Pictures\\Postales\\";
 
         pathPostal = pathPostal.concat(newName);
-
-        Postals nuevo = new Postals(pathOrigin, pathPostal, newName);
+        String[] outExtension;
+        String str = newName.replace(".", " -");
+        outExtension = str.split("-");
+        Postals nuevo = new Postals(pathOrigin, pathPostal, outExtension[0],newName);
         if (inicio == null) {
+            System.out.println("Entro aqui");
             inicio = nuevo;
             createPostal(pathOrigin, textTop, textBellow, newName, size, font);
             return "Insertado";
         }
 
-        if (search(newName) == null) {
+    
+        if (search(outExtension[0]) == null) {
             nuevo.sig = inicio; //insersion al inicio de una lista
             inicio = nuevo;
             createPostal(pathOrigin, textTop, textBellow, newName, size, font);
@@ -83,13 +87,17 @@ public class PostalsMethods {
     
     public Postals search(String name){
         Postals aux = inicio;
-        while (aux != null) {                      
+        while (aux != null) {     
             if(aux.namePostal.equals(name)){
                 return aux;
             }
             aux = aux.sig;
         }
         return null;
-    }
+    } 
     
+    
+    public Postals  getPostals(){
+        return inicio;
+    }
 }
