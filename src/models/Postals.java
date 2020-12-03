@@ -5,11 +5,13 @@
  */
 package models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author edubi
  */
-public class Postals extends Images{
+public class Postals extends Images implements Serializable{
    
     private String nameWithExtension;
 

@@ -5,11 +5,13 @@
  */
 package models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author edubi
  */
-public class Originals extends Images {
+public class Originals extends Images implements Serializable{
 
     public Originals(String path, String name, String dateOfCreated, String dimens, String bytes, String typeOfFile) {
         super(path, name, dateOfCreated, dimens, bytes, typeOfFile);

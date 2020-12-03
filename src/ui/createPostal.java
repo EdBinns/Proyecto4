@@ -15,6 +15,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import     conexion.ConexionC;
 import controler.PostalsControler;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import repository.ProjectsMethods;
 
 /**
@@ -36,7 +38,7 @@ public class createPostal extends javax.swing.JFrame {
 
     public createPostal() {
         initComponents();
-
+        cerrar();
         this.setLocationRelativeTo(this);
     }
 
@@ -308,5 +310,24 @@ public class createPostal extends javax.swing.JFrame {
 
             System.out.println(pathImage);
         }
+    }
+  private void cerrar() {
+        try {
+
+            this.setDefaultCloseOperation(postals.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+
+                public void windowClosing(WindowEvent e) {
+                    pp.save();
+                    salir();
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("Se callo");
+        }
+    }
+    
+    private void salir(){
+          System.exit(0);
     }
 }

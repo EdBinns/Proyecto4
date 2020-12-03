@@ -42,11 +42,20 @@ public class PostalsControler {
         Project aux = getProjects();
         while (aux != null) {  
             listModel.addElement(aux.getNameProject());
+            System.out.println(aux.getNameProject());
             aux = aux.getSig();
         }
         return listModel;
     }
 
+   public String getDimens(String path){
+        try {
+            return pm.getDimens(path);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PostalsControler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+   }
     public Project searchProject(String name) {     
         return pm.search(name);
     }
@@ -64,4 +73,13 @@ public class PostalsControler {
     public Originals getOriginals(){
         return pm.getLastPostalSee().getOriginal();
     }
+    
+    public void load(){
+        pm.loadProjects();
+    }
+    
+    public void save(){
+        pm.saveProjects();
+    }
+    
 }

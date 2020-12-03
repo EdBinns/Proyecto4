@@ -10,7 +10,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -63,13 +67,13 @@ public class ProjectsMethods {
      */
     public String insertPostal(String pathOrigin, String textTop, String textBellow, String newName, String size, String font) throws FileNotFoundException {
 
-        String pathPostal = "C:\\Users\\edubi\\OneDrive\\Pictures\\Postales\\";
+        String pathPostal = "C:\\\\Users\\\\edubi\\\\OneDrive\\\\Pictures\\\\Postales\\\\";
 
         pathPostal = pathPostal.concat(newName);
         String[] outExtension;
         String str = newName.replace(".", " -");
         outExtension = str.split("-");
-        Postals postal = new Postals(pathPostal, outExtension[0], getActualDate(),getDimens(pathPostal), getBytes(pathPostal),getTypeOfFile(newName), newName );
+        Postals postal = new Postals(pathPostal, outExtension[0], getActualDate(), " ", getBytes(pathPostal),getTypeOfFile(newName), newName );
         Originals original = new Originals(pathOrigin, outExtension[0], " ", getDimens(pathOrigin),getBytes(pathOrigin),getTypeOfFile(pathOrigin));
         
         Project nuevo = new Project(outExtension[0], original, postal);
@@ -77,9 +81,7 @@ public class ProjectsMethods {
             inicio = nuevo;
             createPostal(pathOrigin, textTop, textBellow, newName, size, font);
             return "Insertado";
-        }
-
-    
+        }   
         if (search(outExtension[0]) == null) {
             nuevo.setSig(inicio);  //insersion al inicio de una lista
             inicio = nuevo;
@@ -138,12 +140,12 @@ public class ProjectsMethods {
     private String getBytes(String path) {
 
         //Se obtiene el tamaño de una imagen
-        File imgObj = new File(path);;
+        File imgObj = new File(path);
         int imgLength = (int) imgObj.length();
         return String.valueOf(imgLength);
     }
     
-    private String getDimens(String path) throws FileNotFoundException {
+    public String getDimens(String path) throws FileNotFoundException {
       
         ImageInputStream iis;
         int w = 0;
@@ -171,5 +173,44 @@ public class ProjectsMethods {
             } else {
                return "Archivo bmp";
             }
+    }
+    
+    public void loadProjects()  {
+        
+        FileInputStream entrada = null;
+        try {
+
+            entrada = new FileInputStream("project.txt");
+            ObjectInputStream leyendo = new ObjectInputStream(entrada);
+            Project project = (Project) leyendo.readObject();
+            
+            inicio = project;
+            System.out.println("Se guardo");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void saveProjects() {
+        FileOutputStream fichero = null;
+        try {
+            fichero = new FileOutputStream("project.txt");
+            ObjectOutputStream escribiendo = new ObjectOutputStream(fichero);
+            escribiendo.writeObject(inicio);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                fichero.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

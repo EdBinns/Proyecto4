@@ -379,10 +379,11 @@ public class Propiedades extends javax.swing.JFrame {
     private void setPropertiesPostal(){
         
         Postals postal = pp.getPostal();
-        
+        postal.setDimens(pp.getDimens(postal.getPath()));
         lbNamePostal.setText(postal.getName());
         lbBytesPostals.setText(postal.getBytes());
         lbDatePostals.setText(postal.getDateOfCreated());
+        
         lbDimensPostals.setText(postal.getDimens());
         lbFilePostal.setText(postal.getTypeOfFile());
         ImageIcon origin = new ImageIcon(postal.getPath());

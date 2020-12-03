@@ -9,8 +9,15 @@ package ui;
 
 import com.sun.scenario.effect.impl.prism.PrImage;
 import controler.PostalsControler;
+import java.awt.Desktop;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -34,7 +41,7 @@ public class postals extends javax.swing.JFrame{
     public postals() {
         initComponents();
         Border border = LineBorder.createGrayLineBorder();
-
+        cerrar();  
         lbImage1.setBorder(border);
         lbImage2.setBorder(border);
         showPostals();
@@ -61,6 +68,8 @@ public class postals extends javax.swing.JFrame{
         btnProperties = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnPostal = new javax.swing.JButton();
+        btnOriginal = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -98,6 +107,20 @@ public class postals extends javax.swing.JFrame{
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("Postal");
 
+        btnPostal.setText("Ver ");
+        btnPostal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPostalActionPerformed(evt);
+            }
+        });
+
+        btnOriginal.setText("Ver ");
+        btnOriginal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOriginalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,27 +129,35 @@ public class postals extends javax.swing.JFrame{
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnPlugins, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnProperties, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(211, 211, 211))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(lbImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(230, 230, 230)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
-                        .addGap(136, 136, 136))))
+                        .addGap(136, 136, 136))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(btnPlugins, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnProperties, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(200, 200, 200))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lbImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(lbImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(33, 33, 33))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(220, 220, 220)
+                                .addComponent(btnOriginal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnPostal)
+                                .addGap(135, 135, 135))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,7 +178,11 @@ public class postals extends javax.swing.JFrame{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(45, 45, 45)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnPostal)
+                            .addComponent(btnOriginal))
+                        .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnPlugins, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnProperties, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -176,6 +211,32 @@ public class postals extends javax.swing.JFrame{
             Logger.getLogger(postals.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPropertiesActionPerformed
+
+    private void btnOriginalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOriginalActionPerformed
+    
+        try {
+            String Imagen = pp.getOriginals().getPath();
+            File archivo = new File(Imagen);
+            Desktop Desk = Desktop.getDesktop();
+            Desk.open(archivo);
+        } catch (IOException ex) {
+            Logger.getLogger(postals.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+   
+    }//GEN-LAST:event_btnOriginalActionPerformed
+
+    private void btnPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostalActionPerformed
+          try {
+            String Imagen = pp.getPostal().getPath();
+            File archivo = new File(Imagen);
+            Desktop Desk = Desktop.getDesktop();
+            Desk.open(archivo);
+        } catch (IOException ex) {
+            Logger.getLogger(postals.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+    }//GEN-LAST:event_btnPostalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,7 +280,9 @@ public class postals extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMenu;
+    private javax.swing.JButton btnOriginal;
     private javax.swing.JButton btnPlugins;
+    private javax.swing.JButton btnPostal;
     private javax.swing.JButton btnProperties;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
@@ -231,7 +294,7 @@ public class postals extends javax.swing.JFrame{
     private javax.swing.JLabel txtTitle;
     // End of variables declaration//GEN-END:variables
 
-    public void showPostals() {
+    private void showPostals() {
         DefaultListModel<String> listModel = pp.showPostals();
         listPostals.setModel(listModel);
         listPostals.getSelectionModel().addListSelectionListener(e -> {
@@ -246,5 +309,25 @@ public class postals extends javax.swing.JFrame{
                 lbImage2.setIcon(iconPostal);
             }
         });
+    }
+
+    private void cerrar() {
+        try {
+
+            this.setDefaultCloseOperation(postals.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+
+                public void windowClosing(WindowEvent e) {
+                    pp.save();
+                    salir();
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("Se callo");
+        }
+    }
+    
+    private void salir(){
+          System.exit(0);
     }
 }
