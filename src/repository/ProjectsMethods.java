@@ -67,7 +67,7 @@ public class ProjectsMethods {
      */
     public String insertPostal(String pathOrigin, String textTop, String textBellow, String newName, String size, String font) throws FileNotFoundException {
 
-        String pathPostal = "C:\\\\Users\\\\edubi\\\\OneDrive\\\\Pictures\\\\Postales\\\\";
+        String pathPostal = "C:\\\\Users\\\\edubi\\\\Documents\\\\Proyecto OO\\\\Proyecto4\\\\Postales\\\\";
 
         pathPostal = pathPostal.concat(newName);
         String[] outExtension;

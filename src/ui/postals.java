@@ -35,7 +35,7 @@ import models.Project;
 public class postals extends javax.swing.JFrame{
 
     /** Creates new form postals */
-    PostalsControler pp = new PostalsControler();
+        PostalsControler pp = new PostalsControler();
  
 
     public postals() {

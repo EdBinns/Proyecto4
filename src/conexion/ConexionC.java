@@ -14,10 +14,10 @@ import java.io.IOException;
  * @author edubi
  */
 public class ConexionC {
-
+//C:\\Users\\edubi\\Documents\\ProyectoLenguajes\\Proyecto\\cmake-build-debug\\proyecto.exe
     public void connect(String path, String textTop, String textBellow, String newName, String size, String font) {
         try {
-            Process process = new ProcessBuilder("C:\\Users\\edubi\\Documents\\ProyectoLenguajes\\Proyecto\\cmake-build-debug\\proyecto.exe",
+            Process process = new ProcessBuilder("C:\\Users\\edubi\\Documents\\Proyecto OO\\Proyecto4\\Ejecutable de C\\Proyecto.exe",
                     path, textTop,textBellow,newName,size,font).start();
             System.out.println(process.toString());
         } catch (IOException e) {

@@ -7,6 +7,8 @@ package ui;
 
 import controler.PostalsControler;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +42,7 @@ public class Propiedades extends javax.swing.JFrame {
         lbImagePostal.setBorder(border);
         setPropertiesPostal();
         setPropertiesOriginal();
+        cerrar();
     }
 
     /**
@@ -409,5 +412,23 @@ public class Propiedades extends javax.swing.JFrame {
                
     }
 
+ private void cerrar() {
+        try {
 
+            this.setDefaultCloseOperation(postals.DO_NOTHING_ON_CLOSE);
+            addWindowListener(new WindowAdapter() {
+
+                public void windowClosing(WindowEvent e) {
+                    pp.save();
+                    salir();
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("Se callo");
+        }
+    }
+    
+    private void salir(){
+          System.exit(0);
+    }
 }
