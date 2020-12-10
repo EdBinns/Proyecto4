@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui;
 
-import controler.PostalsControler;
+
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -21,8 +20,7 @@ import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import models.Originals;
-import models.Postals;
+
 
 /**
  *
@@ -87,7 +85,7 @@ public class Propiedades extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("Nombre:");
+        jLabel1.setText("Nombre proyecto:");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("Tipo archivo:");
@@ -96,10 +94,10 @@ public class Propiedades extends javax.swing.JFrame {
         jLabel3.setText("Dimensiones:");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Ubicaciön:");
+        jLabel4.setText("Ubicación:");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel5.setText("Tamaño en bytes:");
+        jLabel5.setText("Tamaño:");
         jLabel5.setAutoscrolls(true);
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -155,7 +153,7 @@ public class Propiedades extends javax.swing.JFrame {
         lbDatePostals.setText("-");
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel10.setText("Nombre:");
+        jLabel10.setText("Nombre proyecto:");
 
         lbPathPostals.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lbPathPostals.setText("-");
@@ -167,7 +165,7 @@ public class Propiedades extends javax.swing.JFrame {
         jLabel12.setText("Dimensiones:");
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel13.setText("Ubicaciön:");
+        jLabel13.setText("Ubicación:");
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel14.setText("Tamaño en bytes:");
@@ -197,7 +195,7 @@ public class Propiedades extends javax.swing.JFrame {
                             .addComponent(lbBytes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbPath, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lbImagePostal, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -301,7 +299,7 @@ public class Propiedades extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        postals frame = new postals();
+        postalsUI frame = new postalsUI();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         dispose();
@@ -382,7 +380,7 @@ public class Propiedades extends javax.swing.JFrame {
     private void setPropertiesPostal(){
         
         Postals postal = pp.getPostal();
-        postal.setDimens(pp.getDimens(postal.getPath()));
+
         lbNamePostal.setText(postal.getName());
         lbBytesPostals.setText(postal.getBytes());
         lbDatePostals.setText(postal.getDateOfCreated());
@@ -415,7 +413,7 @@ public class Propiedades extends javax.swing.JFrame {
  private void cerrar() {
         try {
 
-            this.setDefaultCloseOperation(postals.DO_NOTHING_ON_CLOSE);
+            this.setDefaultCloseOperation(postalsUI.DO_NOTHING_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
 
                 public void windowClosing(WindowEvent e) {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package models;
+
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author edubi
  */
-public class Images implements Serializable {
+public abstract class Images implements Serializable {
       
    private String path;
    private String name;

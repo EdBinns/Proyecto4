@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui;
+
 
 import java.io.File;
 import java.util.logging.Level;
@@ -13,11 +13,10 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import     conexion.ConexionC;
-import controler.PostalsControler;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import repository.ProjectsMethods;
+
 
 /**
  *
@@ -207,6 +206,7 @@ public class createPostal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCargarActionPerformed
 
     private void btnComeBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComeBackActionPerformed
+        pp.save();
         menu frame = new menu();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -314,7 +314,7 @@ public class createPostal extends javax.swing.JFrame {
   private void cerrar() {
         try {
 
-            this.setDefaultCloseOperation(postals.DO_NOTHING_ON_CLOSE);
+            this.setDefaultCloseOperation(postalsUI.DO_NOTHING_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
 
                 public void windowClosing(WindowEvent e) {

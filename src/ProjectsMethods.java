@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package repository;
 
-import conexion.ConexionC;
+
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,16 +14,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
-import models.Originals;
-import models.Postals;
-import models.Project;
+import javax.swing.Action;
+
 
 /**
  *
@@ -48,6 +50,7 @@ public class ProjectsMethods {
         return instance;
     }
 
+    private ArrayList<PluginsProjects> listPlugins = new ArrayList<PluginsProjects>();
     private Project inicio;
     private Project lastPostalSee;
 
@@ -73,20 +76,36 @@ public class ProjectsMethods {
         String[] outExtension;
         String str = newName.replace(".", " -");
         outExtension = str.split("-");
-        Postals postal = new Postals(pathPostal, outExtension[0], getActualDate(), " ", getBytes(pathPostal),getTypeOfFile(newName), newName );
-        Originals original = new Originals(pathOrigin, outExtension[0], " ", getDimens(pathOrigin),getBytes(pathOrigin),getTypeOfFile(pathOrigin));
+        Postals postal = new Postals(pathPostal, outExtension[0], "", " ", "",getTypeOfFile(newName), newName );
+        Originals original = new Originals(pathOrigin, outExtension[0], getActualDate(pathOrigin), getDimens(pathOrigin),getBytes(pathOrigin),getTypeOfFile(pathOrigin));
         
         Project nuevo = new Project(outExtension[0], original, postal);
         if (inicio == null) {
-            inicio = nuevo;
-            createPostal(pathOrigin, textTop, textBellow, newName, size, font);
-            return "Insertado";
+            try {
+                inicio = nuevo;
+                createPostal(pathOrigin, textTop, textBellow, newName, size, font);
+                Thread.sleep(2000);
+                inicio.getPostal().setDateOfCreated(getActualDate(pathPostal));
+                inicio.getPostal().setDimens(getDimens(pathPostal));
+                inicio.getPostal().setBytes(getBytes(pathPostal));
+                return "Insertado";
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }   
         if (search(outExtension[0]) == null) {
-            nuevo.setSig(inicio);  //insersion al inicio de una lista
-            inicio = nuevo;
-            createPostal(pathOrigin, textTop, textBellow, newName, size, font);
-            return "Insertado";
+            try {
+                nuevo.setSig(inicio);  //insersion al inicio de una lista
+                inicio = nuevo;
+                createPostal(pathOrigin, textTop, textBellow, newName, size, font);
+                Thread.sleep(2000);
+                inicio.getPostal().setDateOfCreated(getActualDate(pathPostal));
+                inicio.getPostal().setDimens(getDimens(pathPostal));
+                inicio.getPostal().setBytes(getBytes(pathPostal));
+                return "Insertado";
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         return "Ya existe ese nombre";
@@ -103,15 +122,24 @@ public class ProjectsMethods {
         connect.connect(pathImage, textTop, textBellow, newName, size, font);
     }
 
-    private String getActualDate() {
-        Date objDate = new Date(); // Sistema actual La fecha y la hora se asignan a objDate 
- 
-        System.out.println(objDate); 
-        String strDateFormat = "dd/MMM/yyyy  hh:mm:ssa "; // El formato de fecha está especificado  
-        SimpleDateFormat objSDF = new SimpleDateFormat(strDateFormat); // La cadena de formato de fecha se pasa como un argumento al objeto 
-        System.out.println(objSDF.format(objDate)); // El formato de fecha se aplica a la fecha actual
-   
-        return objSDF.format(objDate);
+    private String getActualDate(String path) {
+
+        File file = new File(path);
+        String formatted = null;
+
+        BasicFileAttributes attrs;
+        try {
+            attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+            FileTime time = attrs.creationTime();
+            String pattern = "dd/MM/yyyy  HH:mm:ss";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            formatted = simpleDateFormat.format(new Date(time.toMillis()));
+            System.out.println("La fecha y hora de creación del archivo es: " + formatted);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       // return objSDF.format(objDate);
+       return formatted;
     }
     public Project search(String name){
         Project aux = inicio;
@@ -142,10 +170,11 @@ public class ProjectsMethods {
         //Se obtiene el tamaño de una imagen
         File imgObj = new File(path);
         int imgLength = (int) imgObj.length();
-        return String.valueOf(imgLength);
+        int kb = imgLength/1024;
+        return String.valueOf(kb) + " kb";
     }
     
-    public String getDimens(String path) throws FileNotFoundException {
+    private String getDimens(String path) throws FileNotFoundException {
       
         ImageInputStream iis;
         int w = 0;
@@ -161,7 +190,7 @@ public class ProjectsMethods {
             Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return "" + h + "x" + w;
+        return "" + w + "x" + h;
     }
     
     private String getTypeOfFile(String  name){
@@ -185,7 +214,6 @@ public class ProjectsMethods {
             Project project = (Project) leyendo.readObject();
             
             inicio = project;
-            System.out.println("Se guardo");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -211,6 +239,52 @@ public class ProjectsMethods {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    public String addPlugin(String pluginName) {
+        PluginsProjects plugin = new PluginsProjects(pluginName);
+        listPlugins.add(plugin);
+        return "Insertado";
+    }
+
+    public ArrayList<PluginsProjects> getListPlugins() {
+        return listPlugins;
+    }
+    
+    public void savePlugins(){
+         FileOutputStream fichero = null;
+        try {
+            fichero = new FileOutputStream("plugins.txt");
+            ObjectOutputStream escribiendo = new ObjectOutputStream(fichero);
+            escribiendo.writeObject(listPlugins);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                fichero.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public void loadPlugins(){
+            FileInputStream entrada = null;
+        try {
+
+            entrada = new FileInputStream("plugins.txt");
+            ObjectInputStream leyendo = new ObjectInputStream(entrada);
+            ArrayList<PluginsProjects> list = (ArrayList<PluginsProjects>) leyendo.readObject();       
+            listPlugins = list;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

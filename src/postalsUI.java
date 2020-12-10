@@ -4,44 +4,39 @@
  * and open the template in the editor.
  */
 
-package ui;
+
 
 
 import com.sun.scenario.effect.impl.prism.PrImage;
-import controler.PostalsControler;
+
 import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import models.Postals;
-import models.Project;
 
 
 /**
  *
  * @author edubi
  */
-public class postals extends javax.swing.JFrame{
+public class postalsUI extends javax.swing.JFrame{
 
     /** Creates new form postals */
         PostalsControler pp = new PostalsControler();
  
 
-    public postals() {
+    public postalsUI() {
         initComponents();
         Border border = LineBorder.createGrayLineBorder();
-        cerrar();  
+     
         lbImage1.setBorder(border);
         lbImage2.setBorder(border);
         showPostals();
@@ -80,6 +75,11 @@ public class postals extends javax.swing.JFrame{
         txtTitle.setText("Postales generadas");
 
         btnPlugins.setText("Plugins");
+        btnPlugins.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPluginsActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setViewportView(listPostals);
 
@@ -208,7 +208,7 @@ public class postals extends javax.swing.JFrame{
             frame.setVisible(true);
             dispose();
         } catch (IOException ex) {
-            Logger.getLogger(postals.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPropertiesActionPerformed
 
@@ -220,7 +220,7 @@ public class postals extends javax.swing.JFrame{
             Desktop Desk = Desktop.getDesktop();
             Desk.open(archivo);
         } catch (IOException ex) {
-            Logger.getLogger(postals.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
         }
             
    
@@ -233,10 +233,19 @@ public class postals extends javax.swing.JFrame{
             Desktop Desk = Desktop.getDesktop();
             Desk.open(archivo);
         } catch (IOException ex) {
-            Logger.getLogger(postals.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
         }
             
     }//GEN-LAST:event_btnPostalActionPerformed
+
+    private void btnPluginsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPluginsActionPerformed
+
+            pp.loadPlugins();
+            PluginsGUI frame = new PluginsGUI();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            dispose();
+    }//GEN-LAST:event_btnPluginsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,20 +264,21 @@ public class postals extends javax.swing.JFrame{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(postals.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(postalsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(postals.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(postalsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(postals.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(postalsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(postals.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(postalsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new postals().setVisible(true);
+                new postalsUI().setVisible(true);
             }
         });
         
@@ -298,7 +308,7 @@ public class postals extends javax.swing.JFrame{
         DefaultListModel<String> listModel = pp.showPostals();
         listPostals.setModel(listModel);
         listPostals.getSelectionModel().addListSelectionListener(e -> {
-        Project project = pp.searchProject(listPostals.getSelectedValue());
+        Project project = pp.searchProject(listPostals.getSelectedValue()); 
         pp.setLastPostalSee(project);
             if (project != null) {
                 ImageIcon origin = new ImageIcon(project.getOriginal().getPath());
@@ -314,7 +324,7 @@ public class postals extends javax.swing.JFrame{
     private void cerrar() {
         try {
 
-            this.setDefaultCloseOperation(postals.DO_NOTHING_ON_CLOSE);
+            this.setDefaultCloseOperation(postalsUI.DO_NOTHING_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
 
                 public void windowClosing(WindowEvent e) {

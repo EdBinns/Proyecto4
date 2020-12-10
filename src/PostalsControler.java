@@ -3,16 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controler;
+
 
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import models.Originals;
-import models.Postals;
-import models.Project;
-import repository.ProjectsMethods;
+
 
 /**
  *
@@ -48,14 +45,6 @@ public class PostalsControler {
         return listModel;
     }
 
-   public String getDimens(String path){
-        try {
-            return pm.getDimens(path);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PostalsControler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-   }
     public Project searchProject(String name) {     
         return pm.search(name);
     }
@@ -81,5 +70,34 @@ public class PostalsControler {
     public void save(){
         pm.saveProjects();
     }
+
+    public String savePlugin(String name){
+        return  pm.addPlugin(name);
+    }
     
+    public DefaultListModel<String> showPlugins() {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (PluginsProjects object : pm.getListPlugins()) {
+            listModel.addElement(object.getName());
+        }
+        return listModel;
+    }
+    
+    public PluginsProjects searchPlugin(String name){
+         for (PluginsProjects object : pm.getListPlugins()) {
+             if(object.getName().equals(name)){
+                 return object;
+             }
+        }
+         return  null;
+    }
+    
+    public void savePlugins(){
+    
+        pm.savePlugins();
+    }
+    
+    public void loadPlugins(){
+        pm.loadPlugins();
+    }
 }
