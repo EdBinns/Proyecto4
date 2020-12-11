@@ -73,6 +73,8 @@ public class PluginsGUI extends javax.swing.JFrame{
         btnMenu = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         lbImage = new javax.swing.JLabel();
+        btnUsar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -104,6 +106,20 @@ public class PluginsGUI extends javax.swing.JFrame{
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel3.setText("Imagen Actual");
 
+        btnUsar.setText("Usar");
+        btnUsar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eiminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,8 +141,12 @@ public class PluginsGUI extends javax.swing.JFrame{
                                 .addComponent(lbImage, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addComponent(btnPlugins, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(btnPlugins, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnUsar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -139,16 +159,18 @@ public class PluginsGUI extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 47, Short.MAX_VALUE)
+                        .addGap(0, 45, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lbImage, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(127, 127, 127)
-                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(125, 125, 125)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPlugins, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUsar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPlugins, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -182,8 +204,18 @@ public class PluginsGUI extends javax.swing.JFrame{
                 String newname = name.replace(".", ",");
                 String[] nameList = newname.split(",");
                 pp.savePlugin(nameList[0]);
-                copyFileUsingStream(new File(archivo.getAbsolutePath()), new File ("C:\\Users\\edubi\\Documents\\Proyecto OO\\Proyecto4\\src\\" + archivo.getName() ));
-             
+
+                String fileFolder = archivo.getAbsolutePath();
+                
+                String source = fileFolder.split(name)[0];
+                File srcDir = new File(source);
+
+                String destination = "src/";
+                File destDir = new File(destination);
+                
+                copyFolder(srcDir, destDir);
+                copyFileUsingStream(new File(fileFolder), new File("C:\\Users\\edubi\\Documents\\Proyecto OO\\Proyecto4\\src\\" + archivo.getName()));
+
                 JOptionPane msg = new JOptionPane("Cargando Plugin", JOptionPane.WARNING_MESSAGE);
                 final JDialog dlg = msg.createDialog("Advertencia");
                 dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -198,9 +230,23 @@ public class PluginsGUI extends javax.swing.JFrame{
                 dlg.setVisible(true);
                 showPlugins();
             } catch (IOException ex) {
-                Logger.getLogger(PluginsGUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Logger.getLogger(PluginsGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnPluginsActionPerformed
+
+    private void btnUsarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsarActionPerformed
+        PluginsProjects plugin = pp.getPluginSelected();
+        JavaClassLoader jcl = new JavaClassLoader();
+        System.out.println(plugin.getName());
+        jcl.invokeClassMethod(plugin.getName(), pp.getPostal().getPath());
+    }//GEN-LAST:event_btnUsarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        PluginsProjects plugin = pp.getPluginSelected();
+        String message = pp.deletePlugin(plugin);
+        JOptionPane.showMessageDialog(null, message, "información", JOptionPane.INFORMATION_MESSAGE);
+        showPlugins();
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,8 +290,10 @@ public class PluginsGUI extends javax.swing.JFrame{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnPlugins;
+    private javax.swing.JButton btnUsar;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -257,12 +305,11 @@ public class PluginsGUI extends javax.swing.JFrame{
 
     private void showPlugins() {
         DefaultListModel<String> listModel = pp.showPlugins();
-        
+
         listPlugins.setModel(listModel);
         listPlugins.getSelectionModel().addListSelectionListener(e -> {
             PluginsProjects plugin = pp.searchPlugin(listPlugins.getSelectedValue());
-            JavaClassLoader jcl = new JavaClassLoader();
-            jcl.invokeClassMethod(plugin.getName(), pp.getPostal().getPath());
+            pp.setPluginSelected(plugin);
         });
     }
 
@@ -281,7 +328,7 @@ public class PluginsGUI extends javax.swing.JFrame{
             System.out.println("Se callo");
         }
     }
-    
+
     private void salir() {
         System.exit(0);
     }
@@ -300,6 +347,50 @@ public class PluginsGUI extends javax.swing.JFrame{
         } finally {
             is.close();
             os.close();
+        }
+    }
+
+    public static void copyFolder(File source, File destination) {
+        if (source.isDirectory()) {
+            if (!destination.exists()) {
+                destination.mkdirs();
+            }
+
+            String files[] = source.list();
+
+            for (String file : files) {
+                File srcFile = new File(source, file);
+                File destFile = new File(destination, file);
+
+                copyFolder(srcFile, destFile);
+            }
+        } else {
+            InputStream in = null;
+            OutputStream out = null;
+
+            try {
+                in = new FileInputStream(source);
+                out = new FileOutputStream(destination);
+
+                byte[] buffer = new byte[1024];
+
+                int length;
+                while ((length = in.read(buffer)) > 0) {
+                    out.write(buffer, 0, length);
+                }
+            } catch (Exception e) {
+                try {
+                    in.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+                try {
+                    out.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
     }
 }

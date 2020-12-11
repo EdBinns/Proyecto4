@@ -53,6 +53,9 @@ public class ProjectsMethods {
     private ArrayList<PluginsProjects> listPlugins = new ArrayList<PluginsProjects>();
     private Project inicio;
     private Project lastPostalSee;
+    private PluginsProjects pluginSelected;
+
+   
 
     /**
      * .
@@ -241,11 +244,31 @@ public class ProjectsMethods {
             }
         }
     }
+     public PluginsProjects getPluginSelected() {
+        return pluginSelected;
+    }
+
+    public void setPluginSelected(PluginsProjects pluginSelected) {
+        this.pluginSelected = pluginSelected;
+    }
 
     public String addPlugin(String pluginName) {
         PluginsProjects plugin = new PluginsProjects(pluginName);
         listPlugins.add(plugin);
         return "Insertado";
+    }
+  
+    public String deletePlugin(PluginsProjects plugin) {
+        listPlugins.remove(plugin);
+        return "Plugin Eliminado";
+    }
+      public PluginsProjects searchPlugin(String name){
+         for (PluginsProjects object : listPlugins) {
+             if(object.getName().equals(name)){
+                 return object;
+             }
+        }
+         return  null;
     }
 
     public ArrayList<PluginsProjects> getListPlugins() {

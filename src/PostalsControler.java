@@ -75,6 +75,9 @@ public class PostalsControler {
         return  pm.addPlugin(name);
     }
     
+    public String deletePlugin(PluginsProjects plugin){
+        return pm.deletePlugin(plugin);
+    }
     public DefaultListModel<String> showPlugins() {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (PluginsProjects object : pm.getListPlugins()) {
@@ -84,12 +87,7 @@ public class PostalsControler {
     }
     
     public PluginsProjects searchPlugin(String name){
-         for (PluginsProjects object : pm.getListPlugins()) {
-             if(object.getName().equals(name)){
-                 return object;
-             }
-        }
-         return  null;
+       return pm.searchPlugin(name);
     }
     
     public void savePlugins(){
@@ -99,5 +97,13 @@ public class PostalsControler {
     
     public void loadPlugins(){
         pm.loadPlugins();
+    }
+    
+  public PluginsProjects getPluginSelected() {
+        return pm.getPluginSelected();
+    }
+
+    public void setPluginSelected(PluginsProjects pluginSelected) {
+        pm.setPluginSelected(pluginSelected);
     }
 }
