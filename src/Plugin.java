@@ -10,6 +10,7 @@
 /**
  *
  * @author edubi
+ * Interface que permite cargar plugins de forma dinamica
  */
 public interface Plugin {
 

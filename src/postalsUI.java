@@ -202,6 +202,7 @@ public class postalsUI extends javax.swing.JFrame{
     }//GEN-LAST:event_btnMenuActionPerformed
 
     private void btnPropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPropertiesActionPerformed
+      //Abre el frame de las propiedades
         try {
             Propiedades frame = new Propiedades();
             frame.setLocationRelativeTo(null);
@@ -213,7 +214,7 @@ public class postalsUI extends javax.swing.JFrame{
     }//GEN-LAST:event_btnPropertiesActionPerformed
 
     private void btnOriginalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOriginalActionPerformed
-    
+        //Permite abrir la imagen en tamaño completo 
         try {
             String Imagen = pp.getOriginals().getPath();
             File archivo = new File(Imagen);
@@ -227,7 +228,8 @@ public class postalsUI extends javax.swing.JFrame{
     }//GEN-LAST:event_btnOriginalActionPerformed
 
     private void btnPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostalActionPerformed
-          try {
+        //Permite abrir la imagen en tamaño completo 
+        try {
             String Imagen = pp.getPostal().getPath();
             File archivo = new File(Imagen);
             Desktop Desk = Desktop.getDesktop();
@@ -240,6 +242,7 @@ public class postalsUI extends javax.swing.JFrame{
 
     private void btnPluginsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPluginsActionPerformed
 
+        //Carga los plugins y abre el menu de plugins
             pp.loadPlugins();
             PluginsGUI frame = new PluginsGUI();
             frame.setLocationRelativeTo(null);
@@ -304,6 +307,9 @@ public class postalsUI extends javax.swing.JFrame{
     private javax.swing.JLabel txtTitle;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Permite mostrar los nombres de los projectos en pantalla
+     */
     private void showPostals() {
         DefaultListModel<String> listModel = pp.showPostals();
         listPostals.setModel(listModel);
@@ -321,23 +327,4 @@ public class postalsUI extends javax.swing.JFrame{
         });
     }
 
-    private void cerrar() {
-        try {
-
-            this.setDefaultCloseOperation(postalsUI.DO_NOTHING_ON_CLOSE);
-            addWindowListener(new WindowAdapter() {
-
-                public void windowClosing(WindowEvent e) {
-                    pp.save();
-                    salir();
-                }
-            });
-        } catch (Exception e) {
-            System.out.println("Se callo");
-        }
-    }
-    
-    private void salir(){
-          System.exit(0);
-    }
 }

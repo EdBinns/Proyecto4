@@ -10,10 +10,16 @@ import java.io.Serializable;
 /**
  *
  * @author edubi
+ * 
+ * Clase de modelo para cuando se carga un plugin
  */
 public class PluginsProjects implements Serializable{
     private String name;
 
+    /**
+     * Constructor de la clase, permite crear objetos de este tipo
+     * @param name nombre del plugin
+     */
     public PluginsProjects(String name) {
         this.name = name;
     }

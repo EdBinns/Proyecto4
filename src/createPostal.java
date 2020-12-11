@@ -206,6 +206,7 @@ public class createPostal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCargarActionPerformed
 
     private void btnComeBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComeBackActionPerformed
+        //Se guarda la nueva informacion y se abre el menu
         pp.save();
         menu frame = new menu();
         frame.setLocationRelativeTo(null);
@@ -270,6 +271,9 @@ public class createPostal extends javax.swing.JFrame {
     private javax.swing.JTextField txtTextTop;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Funcion que permite obtener los datos ingresado por el usuario y proceder a crear la imagen
+     */
     public void addPostal() {
         String newName = txtNewName.getText();
         String textTop = txtTextTop.getText();
@@ -290,7 +294,9 @@ public class createPostal extends javax.swing.JFrame {
         }
     }
 
-
+/**
+ * Funcion que permite buscar una imagen en la maquina
+ */
     public void getPostalPath() {
        int resultado;
 
@@ -311,12 +317,17 @@ public class createPostal extends javax.swing.JFrame {
             System.out.println(pathImage);
         }
     }
+    
+    /**
+     * Funcion que permite cerrar el frame
+     */
   private void cerrar() {
         try {
 
             this.setDefaultCloseOperation(postalsUI.DO_NOTHING_ON_CLOSE);
             addWindowListener(new WindowAdapter() {
 
+                @Override
                 public void windowClosing(WindowEvent e) {
                     pp.save();
                     salir();

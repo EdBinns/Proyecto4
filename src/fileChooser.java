@@ -8,6 +8,7 @@
 /**
  *
  * @author edubi
+ * Permite cargar archivos desde cualquier lugar de la maquina
  */
 public class fileChooser extends javax.swing.JFrame {
 

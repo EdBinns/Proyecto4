@@ -11,7 +11,9 @@ import java.awt.event.WindowEvent;
 
 /**
  *
- * @author edubi
+ * @author 
+ * 
+ * Vista principal del proyecto
  */
 public class menu extends javax.swing.JFrame {
 
@@ -141,23 +143,6 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
-private void cerrar() {
-        try {
 
-            this.setDefaultCloseOperation(postalsUI.DO_NOTHING_ON_CLOSE);
-            addWindowListener(new WindowAdapter() {
 
-                public void windowClosing(WindowEvent e) {
-                    pp.save();
-                    salir();
-                }
-            });
-        } catch (Exception e) {
-            System.out.println("Se callo");
-        }
-    }
-    
-    private void salir(){
-          System.exit(0);
-    }
 }

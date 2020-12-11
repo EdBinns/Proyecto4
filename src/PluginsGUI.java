@@ -40,6 +40,7 @@ public class PluginsGUI extends javax.swing.JFrame{
     /** Creates new form postals */
         PostalsControler pp = new PostalsControler();
  
+     //varaible a donde se va a guardar la instacia de un fila
     File archivo;
     public PluginsGUI() {
         initComponents();
@@ -49,6 +50,7 @@ public class PluginsGUI extends javax.swing.JFrame{
         cerrar();
         showPlugins();
 
+        //Se setea la imagen en un label al iniciar el frame
         ImageIcon newP = new ImageIcon(pp.getPostal().getPath());
         ImageIcon iconPostal = new ImageIcon(newP.getImage().getScaledInstance(lbImage.getWidth(), lbImage.getHeight(), Image.SCALE_DEFAULT));
         lbImage.setIcon(iconPostal);
@@ -186,11 +188,16 @@ public class PluginsGUI extends javax.swing.JFrame{
         dispose();
     }//GEN-LAST:event_btnMenuActionPerformed
 
+    
+    /**
+     * Funcion que se ejecuta el tocar un boton, permite cargar y copiar los archivos relacionados a un plugin 
+     * @param evt evento del boton
+     */
     private void btnPluginsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPluginsActionPerformed
             try {
                 int resultado;
                 fileChooser fc = new fileChooser();
-                
+                //Se abre el filichooser
                 resultado = fc.jFileChooser1.showOpenDialog(null);
                 
                 if (JFileChooser.APPROVE_OPTION == resultado) {
@@ -200,6 +207,8 @@ public class PluginsGUI extends javax.swing.JFrame{
                     
                     // System.out.println(pathImage);
                 }
+                
+                //Se consigue el nombre del archivo
                   String name = archivo.getName();
                 String newname = name.replace(".", ",");
                 String[] nameList = newname.split(",");
@@ -212,12 +221,13 @@ public class PluginsGUI extends javax.swing.JFrame{
 
                 String destination = "src/";
                 File destDir = new File(destination);
-                
-                copyFolder(srcDir, destDir);
-                copyFileUsingStream(new File(fileFolder), new File("C:\\Users\\edubi\\Documents\\Proyecto OO\\Proyecto4\\src\\" + archivo.getName()));
+            
+                pp.copyFolder(srcDir, destDir);
+                pp.copyFile(new File(fileFolder), new File("C:\\Users\\edubi\\Documents\\Proyecto OO\\Proyecto4\\src\\" + archivo.getName()));
 
-                JOptionPane msg = new JOptionPane("Cargando Plugin", JOptionPane.WARNING_MESSAGE);
-                final JDialog dlg = msg.createDialog("Advertencia");
+                //Se muestra un mensaje de carga
+                JOptionPane msg = new JOptionPane("Se esta cargando el plugin en el proyecto", JOptionPane.WARNING_MESSAGE);
+                final JDialog dlg = msg.createDialog("Informacion");
                 dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
                 new Thread(() -> {
                     try {
@@ -235,10 +245,8 @@ public class PluginsGUI extends javax.swing.JFrame{
     }//GEN-LAST:event_btnPluginsActionPerformed
 
     private void btnUsarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsarActionPerformed
-        PluginsProjects plugin = pp.getPluginSelected();
-        JavaClassLoader jcl = new JavaClassLoader();
-        System.out.println(plugin.getName());
-        jcl.invokeClassMethod(plugin.getName(), pp.getPostal().getPath());
+
+        pp.loadPluginInProject();
     }//GEN-LAST:event_btnUsarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -303,6 +311,9 @@ public class PluginsGUI extends javax.swing.JFrame{
     private javax.swing.JLabel txtTitle;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Funcion que permite ver todos los plugins en pantalla para que el usuario pueda escoger
+     */
     private void showPlugins() {
         DefaultListModel<String> listModel = pp.showPlugins();
 
@@ -313,6 +324,10 @@ public class PluginsGUI extends javax.swing.JFrame{
         });
     }
 
+    
+    /**
+     * Funcion que permite cerrar el frame
+     */
     private void cerrar() {
         try {
 
@@ -333,64 +348,5 @@ public class PluginsGUI extends javax.swing.JFrame{
         System.exit(0);
     }
 
-    private static void copyFileUsingStream(File source, File dest) throws IOException {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        } finally {
-            is.close();
-            os.close();
-        }
-    }
-
-    public static void copyFolder(File source, File destination) {
-        if (source.isDirectory()) {
-            if (!destination.exists()) {
-                destination.mkdirs();
-            }
-
-            String files[] = source.list();
-
-            for (String file : files) {
-                File srcFile = new File(source, file);
-                File destFile = new File(destination, file);
-
-                copyFolder(srcFile, destFile);
-            }
-        } else {
-            InputStream in = null;
-            OutputStream out = null;
-
-            try {
-                in = new FileInputStream(source);
-                out = new FileOutputStream(destination);
-
-                byte[] buffer = new byte[1024];
-
-                int length;
-                while ((length = in.read(buffer)) > 0) {
-                    out.write(buffer, 0, length);
-                }
-            } catch (Exception e) {
-                try {
-                    in.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-
-                try {
-                    out.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-    }
+   
 }

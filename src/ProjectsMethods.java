@@ -60,29 +60,33 @@ public class ProjectsMethods {
     /**
      * .
      *
-     * método que inserta un postal en la lista
-     *
-     * @param textTop
-     * @param textBellow
-     * @param newName
-     * @param size
-     * @param font
-     * @param pathOrigin
+     * método que inserta un postal en la lista simple
+     * @param textTop  Texto de la parte de arriba de la postal
+     * @param textBellow Texto de la parte de abajo de la postal
+     * @param newName Nombre de la postal con extension
+     * @param size Tamaño de la letra
+     * @param font Fuente de la  letra
+     * @param pathOrigin Dirreción de memoria de la imagen original
      *
      * @return "Insertado" o ""
      */
     public String insertPostal(String pathOrigin, String textTop, String textBellow, String newName, String size, String font) throws FileNotFoundException {
 
+        //Path donde se va a guardar la imagen
         String pathPostal = "C:\\\\Users\\\\edubi\\\\Documents\\\\Proyecto OO\\\\Proyecto4\\\\Postales\\\\";
 
         pathPostal = pathPostal.concat(newName);
         String[] outExtension;
         String str = newName.replace(".", " -");
         outExtension = str.split("-");
+        //Se crea el objeto postal
         Postals postal = new Postals(pathPostal, outExtension[0], "", " ", "",getTypeOfFile(newName), newName );
+        //Se crea el objeto Originals
         Originals original = new Originals(pathOrigin, outExtension[0], getActualDate(pathOrigin), getDimens(pathOrigin),getBytes(pathOrigin),getTypeOfFile(pathOrigin));
         
+        //Se crea un objeto nuevo para ingresarlo a la lista
         Project nuevo = new Project(outExtension[0], original, postal);
+        //Se verifica que el inicio este vasio
         if (inicio == null) {
             try {
                 inicio = nuevo;
@@ -96,6 +100,7 @@ public class ProjectsMethods {
                 Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
             }
         }   
+        //Se verifica que el nombre no este repetido y se agrega a la lista en caso positivo
         if (search(outExtension[0]) == null) {
             try {
                 nuevo.setSig(inicio);  //insersion al inicio de una lista
@@ -114,6 +119,16 @@ public class ProjectsMethods {
         return "Ya existe ese nombre";
     }
 
+    /**
+     * Realiza la conexion con el projecto en C llamando a la clase conexionC
+     * 
+     * @param textTop  Texto de la parte de arriba de la postal
+     * @param textBellow Texto de la parte de abajo de la postal
+     * @param newName Nombre de la postal con extension
+     * @param size Tamaño de la letra
+     * @param font Fuente de la  letra
+     * @param pathImage Dirreción de memoria de la imagen original
+     * */
     private void createPostal(String pathImage, String textTop, String textBellow, String newName, String size, String font) {
         ConexionC connect = new ConexionC();
         if (textTop.isEmpty()) {
@@ -125,6 +140,11 @@ public class ProjectsMethods {
         connect.connect(pathImage, textTop, textBellow, newName, size, font);
     }
 
+    /**
+     * Obtiene la fecha de creación de las imagenes 
+     * @param path dirreción de memoria de la imagen
+     * @return fecha de cración
+     */
     private String getActualDate(String path) {
 
         File file = new File(path);
@@ -144,6 +164,12 @@ public class ProjectsMethods {
        // return objSDF.format(objDate);
        return formatted;
     }
+    
+    /**
+     * Busca una  Project en especifico según su nombre
+     * @param name nombre del Project
+     * @return  Project encontrado
+     */
     public Project search(String name){
         Project aux = inicio;
         while (aux != null) {     
@@ -155,19 +181,34 @@ public class ProjectsMethods {
         return null;
     } 
     
-    
+    /**
+     * Devuelve el inicio de la lista
+     * @return inicio de la lista simple
+     */
     public Project  getProjects(){
         return inicio;
     }
    
+    /**
+     * Setea el último projecto seleccionado del usuario
+     * @param temp projecto seleccionado
+     */
      public void setLastProjectSee(Project temp){
         lastPostalSee = temp;
     }
     
+       /**
+     * Obtiene el último projecto seleccionado del usuario
+     * @return  projecto seleccionado
+     */
     public Project getLastPostalSee(){
         return lastPostalSee;
     }
-
+/**
+ * Obtiene el peso en KB de una imagen 
+ * @param path dirrecion de memoria de la imagen
+ * @return KB de la imagen
+ */
     private String getBytes(String path) {
 
         //Se obtiene el tamaño de una imagen
@@ -176,7 +217,12 @@ public class ProjectsMethods {
         int kb = imgLength/1024;
         return String.valueOf(kb) + " kb";
     }
-    
+    /**
+     * Obtiene las dimensiones de la imagen
+     * @param path Dirrecion de memoria de la imagen
+     * @return dimensiones
+     * @throws FileNotFoundException 
+     */
     private String getDimens(String path) throws FileNotFoundException {
       
         ImageInputStream iis;
@@ -195,7 +241,11 @@ public class ProjectsMethods {
 
         return "" + w + "x" + h;
     }
-    
+    /**
+     * Obtiene el tipo de archivo de la imagen
+     * @param name nombre del archivo
+     * @return tipo de archivo
+     */
     private String getTypeOfFile(String  name){
           
             if (name.contains("png")) {
@@ -206,7 +256,9 @@ public class ProjectsMethods {
                return "Archivo bmp";
             }
     }
-    
+    /**
+     * Carga la lista simple del archivo y se guarda en el objeto inicio
+     */
     public void loadProjects()  {
         
         FileInputStream entrada = null;
@@ -225,7 +277,9 @@ public class ProjectsMethods {
             Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+/**
+ * Guarda el inicio de la lista simple en un archivo
+ */
     public void saveProjects() {
         FileOutputStream fichero = null;
         try {
@@ -244,24 +298,47 @@ public class ProjectsMethods {
             }
         }
     }
+    
+    /**
+     * Obtiene el ultimo plugin seleccionado
+     * @return  Plugin
+     */
      public PluginsProjects getPluginSelected() {
         return pluginSelected;
     }
 
+     /**
+      * Setea el ultimo plugin seleccionado
+      * @param pluginSelected  Plugin seleccioando
+      */
     public void setPluginSelected(PluginsProjects pluginSelected) {
         this.pluginSelected = pluginSelected;
     }
 
+    /**
+    *Agrega un plugin a la lista 
+    *@param pluginName nombre del plugin
+    */
     public String addPlugin(String pluginName) {
         PluginsProjects plugin = new PluginsProjects(pluginName);
         listPlugins.add(plugin);
         return "Insertado";
     }
   
+    /**
+     * Borra un plufig de la lista
+     * @param plugin plugin a borrar
+     * @return Mensaje de exito
+     */
     public String deletePlugin(PluginsProjects plugin) {
         listPlugins.remove(plugin);
         return "Plugin Eliminado";
     }
+    /**
+     * Busca un plugin en especifico
+     * @param name nombre del plugin
+     * @return plugin 
+     */
       public PluginsProjects searchPlugin(String name){
          for (PluginsProjects object : listPlugins) {
              if(object.getName().equals(name)){
@@ -271,10 +348,18 @@ public class ProjectsMethods {
          return  null;
     }
 
+      /**
+       * Obtiene la lista de los plugins
+       * @return  lista de plugins
+       */
     public ArrayList<PluginsProjects> getListPlugins() {
         return listPlugins;
     }
     
+    /**
+     * Guarda la lista de plugins dentro de un archivo
+     *
+     */
     public void savePlugins(){
          FileOutputStream fichero = null;
         try {
@@ -293,7 +378,9 @@ public class ProjectsMethods {
             }
         }
     }
-    
+    /**
+     * Carga la lista de los plugins
+     */
     public void loadPlugins(){
             FileInputStream entrada = null;
         try {

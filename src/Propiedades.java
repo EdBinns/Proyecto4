@@ -35,6 +35,7 @@ public class Propiedades extends javax.swing.JFrame {
 
     public Propiedades() throws IOException {
         initComponents();
+        //Se setean bordes a los labels
         Border border = LineBorder.createGrayLineBorder();
         lbImage.setBorder(border);
         lbImagePostal.setBorder(border);
@@ -164,7 +165,7 @@ public class Propiedades extends javax.swing.JFrame {
         jLabel13.setText("Ubicación:");
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel14.setText("Tamaño en bytes:");
+        jLabel14.setText("Tamaño:");
         jLabel14.setAutoscrolls(true);
 
         txtPathOri.setEditable(false);
@@ -393,6 +394,9 @@ public class Propiedades extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
 
+    /**
+     * Funcion que permite setear la informacion de las propiedades de una postal en un label
+    */
     private void setPropertiesPostal(){
         
         Postals postal = pp.getPostal();
@@ -410,6 +414,9 @@ public class Propiedades extends javax.swing.JFrame {
                
     }
     
+    /**
+     * Funcion que permite setear la informacion de las propiedades de una imagen original en un label
+    */
    private void setPropertiesOriginal(){
         
         Originals original = pp.getOriginals();
@@ -426,6 +433,9 @@ public class Propiedades extends javax.swing.JFrame {
                
     }
 
+   /**
+    * Funcion que permite cerrar el frame
+    */
  private void cerrar() {
         try {
 

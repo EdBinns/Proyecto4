@@ -10,6 +10,8 @@ import java.io.Serializable;
 /**
  *
  * @author edubi
+ * 
+ * Clase principal del projecto, en esta se almacena el nombre del proyecto creado, la postal generada y la imagen original 
  */
 public class Project implements Serializable{
     
@@ -17,9 +19,16 @@ public class Project implements Serializable{
     private Originals original;
     private Postals postal;
 
+    //Atributo que indica si hay mas Objetos dentro de la lista simple
     private Project sig;
 
-  
+
+    /**
+     * Constructor de la clase Project
+     * @param nameProject Nombre del projecto
+     * @param original Objeto que contiene la información de la imagen original
+     * @param postal  Objeto que contiene la informacuón de la postal
+     */
     public Project(String nameProject, Originals original, Postals postal) {
         this.nameProject = nameProject;
         this.original = original;
