@@ -216,11 +216,17 @@ public class postalsUI extends javax.swing.JFrame{
     private void btnOriginalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOriginalActionPerformed
         //Permite abrir la imagen en tamaño completo 
         try {
-            String Imagen = pp.getOriginals().getPath();
-            File archivo = new File(Imagen);
-            Desktop Desk = Desktop.getDesktop();
-            Desk.open(archivo);
+            Originals ori = pp.getOriginals();
+            if (ori != null) {
+                String Imagen = pp.getOriginals().getPath();
+                File archivo = new File(Imagen);
+                Desktop Desk = Desktop.getDesktop();
+                Desk.open(archivo);
+            }
+
         } catch (IOException ex) {
+            Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (Exception ex) {
             Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
         }
             
@@ -235,6 +241,8 @@ public class postalsUI extends javax.swing.JFrame{
             Desktop Desk = Desktop.getDesktop();
             Desk.open(archivo);
         } catch (IOException ex) {
+            Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (Exception ex) {
             Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
         }
             

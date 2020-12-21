@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -398,8 +399,8 @@ public class Propiedades extends javax.swing.JFrame {
      * Funcion que permite setear la informacion de las propiedades de una postal en un label
     */
     private void setPropertiesPostal(){
-        
-        Postals postal = pp.getPostal();
+        try {
+              Postals postal = pp.getPostal();
 
         lbNamePostal.setText(postal.getName());
         lbBytesPostals.setText(postal.getBytes());
@@ -411,26 +412,34 @@ public class Propiedades extends javax.swing.JFrame {
         ImageIcon iconOri = new ImageIcon(origin.getImage().getScaledInstance(lbImagePostal.getWidth(), lbImagePostal.getHeight(), Image.SCALE_DEFAULT));
         lbImagePostal.setIcon(iconOri);
         txtPathPostal.setText(postal.getPath());
-               
+        } catch (Exception e) {
+              JOptionPane.showMessageDialog(null, "No ha seleccionado una imagen", "alerta", JOptionPane.ERROR_MESSAGE);
+        }
+   
     }
-    
+
     /**
-     * Funcion que permite setear la informacion de las propiedades de una imagen original en un label
-    */
-   private void setPropertiesOriginal(){
-        
-        Originals original = pp.getOriginals();
-        
-        lbName.setText(original.getName());
-        lbBytes.setText(original.getBytes());
-        lbDate.setText(original.getDateOfCreated());
-        lbDimens.setText(original.getDimens());
-        lbFile.setText(original.getTypeOfFile());
-        ImageIcon origin = new ImageIcon(original.getPath());
-        ImageIcon iconOri = new ImageIcon(origin.getImage().getScaledInstance(lbImagePostal.getWidth(), lbImagePostal.getHeight(), Image.SCALE_DEFAULT));
-        lbImage.setIcon(iconOri);
-        txtPathOri.setText(original.getPath());
-               
+     * Funcion que permite setear la informacion de las propiedades de una
+     * imagen original en un label
+     */
+    private void setPropertiesOriginal() {
+
+        try {
+            Originals original = pp.getOriginals();
+            lbName.setText(original.getName());
+            lbBytes.setText(original.getBytes());
+            lbDate.setText(original.getDateOfCreated());
+            lbDimens.setText(original.getDimens());
+            lbFile.setText(original.getTypeOfFile());
+            ImageIcon origin = new ImageIcon(original.getPath());
+            ImageIcon iconOri = new ImageIcon(origin.getImage().getScaledInstance(lbImagePostal.getWidth(), lbImagePostal.getHeight(), Image.SCALE_DEFAULT));
+            lbImage.setIcon(iconOri);
+            txtPathOri.setText(original.getPath());
+        } catch (Exception e) {
+            System.out.println("No ha seleccionado una imagen");
+        }
+
+
     }
 
    /**

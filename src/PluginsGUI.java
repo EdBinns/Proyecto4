@@ -50,10 +50,15 @@ public class PluginsGUI extends javax.swing.JFrame{
         cerrar();
         showPlugins();
 
-        //Se setea la imagen en un label al iniciar el frame
-        ImageIcon newP = new ImageIcon(pp.getPostal().getPath());
-        ImageIcon iconPostal = new ImageIcon(newP.getImage().getScaledInstance(lbImage.getWidth(), lbImage.getHeight(), Image.SCALE_DEFAULT));
-        lbImage.setIcon(iconPostal);
+        //Se setea la imagen en un label al iniciar el 
+        try {
+            ImageIcon newP = new ImageIcon(pp.getPostal().getPath());
+            ImageIcon iconPostal = new ImageIcon(newP.getImage().getScaledInstance(lbImage.getWidth(), lbImage.getHeight(), Image.SCALE_DEFAULT));
+            lbImage.setIcon(iconPostal);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado una imagen", "alerta", JOptionPane.ERROR_MESSAGE);
+        }
+
 
     }
 
@@ -246,14 +251,25 @@ public class PluginsGUI extends javax.swing.JFrame{
 
     private void btnUsarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsarActionPerformed
 
-        pp.loadPluginInProject();
+        try {
+                  pp.loadPluginInProject();
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "No ha seleccionado un plugin", "alerta", JOptionPane.ERROR_MESSAGE);
+        }
+  
     }//GEN-LAST:event_btnUsarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        PluginsProjects plugin = pp.getPluginSelected();
-        String message = pp.deletePlugin(plugin);
-        JOptionPane.showMessageDialog(null, message, "información", JOptionPane.INFORMATION_MESSAGE);
-        showPlugins();
+        try {
+            PluginsProjects plugin = pp.getPluginSelected();
+            String message = pp.deletePlugin(plugin);
+            JOptionPane.showMessageDialog(null, message, "información", JOptionPane.INFORMATION_MESSAGE);
+            showPlugins();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado un plugin", "alerta", JOptionPane.ERROR_MESSAGE);
+
+        }
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**

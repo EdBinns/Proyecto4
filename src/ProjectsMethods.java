@@ -73,8 +73,8 @@ public class ProjectsMethods {
     public String insertPostal(String pathOrigin, String textTop, String textBellow, String newName, String size, String font) throws FileNotFoundException {
 
         //Path donde se va a guardar la imagen
-        String pathPostal = "C:\\\\Users\\\\edubi\\\\Documents\\\\Proyecto OO\\\\Proyecto4\\\\Postales\\\\";
-
+        String pathPostal = "C:\\Users\\edubi\\Documents\\Proyecto OO\\Proyecto4\\Postales\\";
+        String pathSave =  pathPostal;
         pathPostal = pathPostal.concat(newName);
         String[] outExtension;
         String str = newName.replace(".", " -");
@@ -90,7 +90,7 @@ public class ProjectsMethods {
         if (inicio == null) {
             try {
                 inicio = nuevo;
-                createPostal(pathOrigin, textTop, textBellow, newName, size, font);
+                createPostal(pathOrigin, textTop, textBellow, newName, size, font,pathSave);
                 Thread.sleep(2000);
                 inicio.getPostal().setDateOfCreated(getActualDate(pathPostal));
                 inicio.getPostal().setDimens(getDimens(pathPostal));
@@ -105,7 +105,7 @@ public class ProjectsMethods {
             try {
                 nuevo.setSig(inicio);  //insersion al inicio de una lista
                 inicio = nuevo;
-                createPostal(pathOrigin, textTop, textBellow, newName, size, font);
+                createPostal(pathOrigin, textTop, textBellow, newName, size, font,pathSave);
                 Thread.sleep(2000);
                 inicio.getPostal().setDateOfCreated(getActualDate(pathPostal));
                 inicio.getPostal().setDimens(getDimens(pathPostal));
@@ -128,8 +128,9 @@ public class ProjectsMethods {
      * @param size Tamaño de la letra
      * @param font Fuente de la  letra
      * @param pathImage Dirreción de memoria de la imagen original
+     * @param  pathSave   Dirreción de memoria donde se va a guardar
      * */
-    private void createPostal(String pathImage, String textTop, String textBellow, String newName, String size, String font) {
+    private void createPostal(String pathImage, String textTop, String textBellow, String newName, String size, String font,String pathSave) {
         ConexionC connect = new ConexionC();
         if (textTop.isEmpty()) {
             textTop = "vacio";
@@ -137,7 +138,7 @@ public class ProjectsMethods {
         if (textBellow.isEmpty()) {
             textBellow = "vacio";
         }
-        connect.connect(pathImage, textTop, textBellow, newName, size, font);
+        connect.connect(pathImage, textTop, textBellow, newName, size, font,pathSave);
     }
 
     /**
@@ -331,8 +332,11 @@ public class ProjectsMethods {
      * @return Mensaje de exito
      */
     public String deletePlugin(PluginsProjects plugin) {
-        listPlugins.remove(plugin);
+        if(plugin != null){
+               listPlugins.remove(plugin);
         return "Plugin Eliminado";
+        }
+        return "No existe el plugin a eliminar";
     }
     /**
      * Busca un plugin en especifico
@@ -370,7 +374,9 @@ public class ProjectsMethods {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
+        } catch (Exception ex) {
+            Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
             try {
                 fichero.close();
             } catch (IOException ex) {
@@ -395,6 +401,8 @@ public class ProjectsMethods {
             Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ProjectsMethods.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (Exception ex) {
+            Logger.getLogger(postalsUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
